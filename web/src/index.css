@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors — Mercury base */
+  --color-onyx-canvas: #171721;
+  --color-graphite-card: #1e1e2a;
+  --color-obsidian-button: #272735;
+  --color-slate-border: #70707d;
+  --color-mist-border: #e2e3ed;
+  --color-ash-text: #c3c3cc;
+  --color-ivory-text: #ededf3;
+  --color-cobalt: #5266eb;
+  --color-pure-white: #ffffff;
+
+  /* Colors — 金箔主題裝飾色（僅用於徽章/分隔線，不用於互動元件） */
+  --color-champagne-gold: #d4af37;
+  --color-champagne-gold-dim: #8a7328;
+
+  /* Typography */
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* 間距沿用 Tailwind 預設 4px 級距（p-1=4px…p-18=72px…p-28=112px…p-32=128px），不覆寫 --spacing */
+
+  /* Border Radius */
+  --radius-nav: 40px;
+  --radius-tags: 40px;
+  --radius-cards: 12px;
+  --radius-inputs: 32px;
+  --radius-buttons: 32px;
+
+  /* Layout */
+  --width-page-max: 1200px;
+}
+
+/* 淺色分區變體：套用 data-tone="light" 的區塊會覆寫這些語意色 token，
+   底下所有沿用 bg-onyx-canvas / text-ivory-text / bg-graphite-card 等既有 class 的
+   元件會自動跟著換色，不需要另外寫淺色版元件。Cobalt／香檳金強調色維持不變。 */
+[data-tone="light"] {
+  --color-onyx-canvas: #f5f2ea;
+  --color-graphite-card: #ffffff;
+  --color-obsidian-button: #ece7da;
+  --color-ivory-text: #232330;
+  --color-ash-text: #6b6b78;
+  --color-mist-border: #d8d2c2;
+  --color-slate-border: #b6b0a0;
+}
+
+/* 深淺分區交界的漸變過渡帶：背景本身是一張「深→淺」的線性漸層圖（同一瞬間畫面上
+   就有真正的空間漸變，不是整塊變色，所以不會出現實心色塊硬邊界）。
+   漸層帶的「浮現」動作用 Scroll-driven Animations 綁定捲動位置——用 clip-path 由上往下
+   撐開，捲多少、漸層帶現多少，不支援的瀏覽器（@supports 判斷）直接顯示完整漸層。 */
+.tone-transition-strip {
+  height: 24rem;
+}
+@media (min-width: 640px) {
+  .tone-transition-strip {
+    height: 60vh;
+  }
+}
+@keyframes strip-reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0% 0);
+  }
+}
+@supports (animation-timeline: view()) {
+  .tone-transition-strip {
+    animation: strip-reveal linear both;
+    animation-timeline: view();
+    /* cover（不是 entry）：範圍綁定「元素從第一個像素出現到最後一個像素消失」的
+       整段可視時間，不是只綁定它自己矮矮的高度，捲動距離拉長，效果才看得出來。 */
+    animation-range: cover 0% cover 55%;
+  }
+}
+
+/* 卡片捲動淡入：進入視窗時緩緩浮現，不支援的瀏覽器維持預設可見（漸進增強）。 */
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@supports (animation-timeline: view()) {
+  .scroll-reveal {
+    opacity: 0;
+    animation: card-reveal linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 35%;
+  }
+}
+
+/* 飄雪背景：固定在畫面上、不隨捲動位移，輕量 CSS 動畫營造氛圍雪花，
+   純裝飾（aria-hidden + pointer-events:none），不影響版面與互動。 */
+.snowfall {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  pointer-events: none;
+}
+.snowflake {
+  position: absolute;
+  top: -5vh;
+  border-radius: 9999px;
+  background: #ffffff;
+  /* 用差集混合模式讓同一顆雪花在深色與淺色區塊上都維持可見對比，不用照分區另外配色。 */
+  mix-blend-mode: difference;
+  animation: snow-fall linear infinite;
+  will-change: transform;
+}
+@keyframes snow-fall {
+  from {
+    transform: translateY(-5vh) translateX(0);
+  }
+  to {
+    transform: translateY(105vh) translateX(var(--drift, 30px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .snowflake {
+    animation: none;
+    display: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-onyx-canvas);
+  color: var(--color-ivory-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}
