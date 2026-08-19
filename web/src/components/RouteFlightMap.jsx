@@ -82,7 +82,13 @@ export function RouteFlightMap() {
         type: "line",
         source: "route-line",
         slot: "top",
-        paint: { "line-color": "#d4af37", "line-width": 8, "line-opacity": 0.25, "line-blur": 3 },
+        paint: {
+          "line-color": "#d4af37",
+          "line-width": 8,
+          "line-opacity": 0.25,
+          "line-blur": 3,
+          "line-emissive-strength": 1,
+        },
       });
       map.addLayer({
         id: "route-line",
@@ -90,7 +96,7 @@ export function RouteFlightMap() {
         source: "route-line",
         slot: "top",
         layout: { "line-cap": "round", "line-join": "round" },
-        paint: { "line-color": "#d4af37", "line-width": 3 },
+        paint: { "line-color": "#d4af37", "line-width": 3, "line-emissive-strength": 1 },
       });
 
       routeFlightStops.forEach((stop) => {
