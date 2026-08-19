@@ -4,8 +4,10 @@ import { Card } from "../components/Card";
 import { PhotoSlot } from "../components/PhotoSlot";
 
 const DESKTOP_QUERY = "(min-width: 640px)";
-const PIN_RANGE_VH = 200; // 影片「播放進度」對應的可捲動距離
+const PIN_RANGE_VH = 100; // pinned 區可捲動的距離——只需要涵蓋「標題浮現完成」，不用捲一大段空白
 const TOTAL_HEIGHT_VH = PIN_RANGE_VH + 100;
+const TITLE_FADE_START = 0.2; // 捲動進度（0~1）達到這裡開始逐字浮現
+const TITLE_FADE_END = 0.75; // 浮現完成的進度；影片播放進度也對應到這裡就凍結，之後捲動只是放開 pinned 區
 
 const TITLE_CLASS =
   "font-display max-w-3xl text-4xl font-medium leading-[1.15] tracking-[0.01em] text-ivory-text sm:text-5xl lg:text-6xl";
@@ -126,22 +128,45 @@ function CinematicHero({ onVideoUnavailable }) {
     const video = videoRef.current;
     if (!el || !video) return;
 
-    function onScroll() {
+    const rawProgressRef = { current: 0 };
+    let appliedProgress = -1;
+    let rafId;
+
+    function computeProgress() {
       const rect = el.getBoundingClientRect();
       const total = el.offsetHeight - window.innerHeight;
       const scrolled = -rect.top;
-      const p = total > 0 ? Math.min(1, Math.max(0, scrolled / total)) : 0;
-      setTitleProgress(p);
+      return total > 0 ? Math.min(1, Math.max(0, scrolled / total)) : 0;
+    }
 
-      if (durationRef.current > 0) {
-        video.currentTime = p * durationRef.current;
+    function onScroll() {
+      rawProgressRef.current = computeProgress();
+    }
+
+    // 影片的 seek（設定 currentTime）成本不低，`scroll` 事件觸發頻率遠高於畫面
+    // 更新頻率（滑鼠滾輪/觸控板一秒可能觸發上百次），每次都直接 seek 會頓。
+    // 改成用 requestAnimationFrame 節流，跟畫面刷新率同步，捲動時才會順。
+    function tick() {
+      const p = rawProgressRef.current;
+      if (Math.abs(p - appliedProgress) > 0.0005) {
+        appliedProgress = p;
+        setTitleProgress(p);
+
+        // 影片播放進度只對應到「標題浮現完成」這段（0 ~ TITLE_FADE_END），
+        // 標題全部出現後影片就凍結在最後一幀，不需要再繼續播放，
+        // 剩下的捲動距離只是讓 pinned 區放開、把下面的資訊帶出來。
+        if (durationRef.current > 0) {
+          const videoProgress = Math.min(1, p / TITLE_FADE_END);
+          video.currentTime = videoProgress * durationRef.current;
+        }
+
+        let opacity = 0;
+        if (p < TITLE_FADE_START) opacity = 0;
+        else if (p < TITLE_FADE_END) opacity = (p - TITLE_FADE_START) / (TITLE_FADE_END - TITLE_FADE_START);
+        else opacity = 1;
+        setTextOpacity(Math.max(0, Math.min(1, opacity)));
       }
-
-      let opacity = 0;
-      if (p < 0.15) opacity = 0;
-      else if (p < 0.35) opacity = (p - 0.15) / 0.2;
-      else opacity = 1;
-      setTextOpacity(Math.max(0, Math.min(1, opacity)));
+      rafId = requestAnimationFrame(tick);
     }
 
     function onLoadedMetadata() {
@@ -151,9 +176,11 @@ function CinematicHero({ onVideoUnavailable }) {
 
     video.addEventListener("loadedmetadata", onLoadedMetadata);
     onScroll();
+    rafId = requestAnimationFrame(tick);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
+      cancelAnimationFrame(rafId);
       video.removeEventListener("loadedmetadata", onLoadedMetadata);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
@@ -177,11 +204,14 @@ function CinematicHero({ onVideoUnavailable }) {
             poster="/images/hero-snow-scenery.jpg"
             onError={() => onVideoUnavailable?.()}
             className="absolute inset-0 h-full w-full object-cover"
+            style={{ filter: "brightness(1.35) saturate(1.15) contrast(1.05)" }}
             aria-label="雪山纜車前進"
           >
             <source src="/videos/hero-cable-car.mp4" type="video/mp4" />
           </video>
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-onyx-canvas via-onyx-canvas/40 to-onyx-canvas/10" />
+          {/* 暗化疊層只在下半部（文字區）保留，避免壓過上面剛提亮的雪山，
+              頂部完全不暗化，才不會跟提亮互相抵銷。 */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-onyx-canvas via-onyx-canvas/35 to-transparent" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 pb-16 sm:pb-24">
             <div className="mx-auto max-w-(--width-page-max) px-5">
               <p
@@ -190,7 +220,12 @@ function CinematicHero({ onVideoUnavailable }) {
               >
                 {overview.dateRange}・{overview.duration}
               </p>
-              <StaggeredTitle text={overview.title} progress={titleProgress} fadeStart={0.15} fadeEnd={0.35} />
+              <StaggeredTitle
+                text={overview.title}
+                progress={titleProgress}
+                fadeStart={TITLE_FADE_START}
+                fadeEnd={TITLE_FADE_END}
+              />
               <p className="mt-3 text-lg text-ash-text" style={{ opacity: textOpacity }}>
                 {overview.subtitle}・{overview.members}
               </p>
