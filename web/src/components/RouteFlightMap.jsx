@@ -32,7 +32,7 @@ export function RouteFlightMap() {
     const first = routeFlightStops[0];
     const map = new mapboxgl.Map({
       container: containerRef.current,
-      style: "mapbox://styles/mapbox/dark-v11",
+      style: "mapbox://styles/mapbox/standard",
       center: [first.lng, first.lat],
       zoom: 8,
       pitch: 55,
@@ -41,7 +41,23 @@ export function RouteFlightMap() {
     });
     mapRef.current = map;
 
-    map.on("load", () => {
+    // 這是純展示用的飛行動畫，不是給使用者操作的互動地圖——
+    // 關掉滾輪縮放/拖曳/雙擊縮放，滑鼠滾輪停在地圖上時才會正常捲動頁面，
+    // 不會被地圖攔截變成縮放地圖，卡住捲不下去。
+    map.scrollZoom.disable();
+    map.dragPan.disable();
+    map.dragRotate.disable();
+    map.doubleClickZoom.disable();
+    map.touchZoomRotate.disable();
+    map.keyboard.disable();
+
+    // Standard 樣式的設定要在 style.load 之後才能呼叫 setConfigProperty，
+    // 跟舊版 dark-v11 這種靜態樣式的 load 時機不一樣。
+    map.on("style.load", () => {
+      // Night 光照預設——Standard 樣式內建的大氣/天空效果會跟著這個設定走，
+      // 不用再像舊版那樣手動加 sky 圖層。
+      map.setConfigProperty("basemap", "lightPreset", "night");
+
       map.addSource("mapbox-dem", {
         type: "raster-dem",
         url: "mapbox://mapbox.terrain-rgb",
@@ -49,19 +65,15 @@ export function RouteFlightMap() {
         maxzoom: 14,
       });
       map.setTerrain({ source: "mapbox-dem", exaggeration: 1.4 });
-      map.addLayer({
-        id: "sky",
-        type: "sky",
-        paint: { "sky-type": "atmosphere", "sky-atmosphere-sun-intensity": 8 },
-      });
 
+      // 初始只給起點一個點，路線會在飛行動畫過程中即時長出來，不是一開始就畫好整條。
       map.addSource("route-line", {
         type: "geojson",
         data: {
           type: "Feature",
           geometry: {
             type: "LineString",
-            coordinates: routeFlightStops.map((s) => [s.lng, s.lat]),
+            coordinates: [[first.lng, first.lat]],
           },
         },
       });
@@ -104,9 +116,25 @@ export function RouteFlightMap() {
           await new Promise((resolve) => map.once("load", resolve));
         }
 
-        for (let i = 0; i < routeFlightStops.length; i++) {
+        const flownCoords = [[first.lng, first.lat]];
+        const lineSource = () => map.getSource("route-line");
+        const setLine = (coords) =>
+          lineSource()?.setData({
+            type: "Feature",
+            geometry: { type: "LineString", coordinates: coords },
+          });
+
+        for (let i = 1; i < routeFlightStops.length; i++) {
           const stop = routeFlightStops[i];
           const next = routeFlightStops[i + 1];
+
+          // 飛行過程中即時把目前鏡頭中心接到已飛過的座標後面，畫出「正在前進」的線段。
+          const onMove = () => {
+            const c = map.getCenter();
+            setLine([...flownCoords, [c.lng, c.lat]]);
+          };
+          map.on("move", onMove);
+
           map.flyTo({
             center: [stop.lng, stop.lat],
             zoom: 8.7,
@@ -116,14 +144,14 @@ export function RouteFlightMap() {
             essential: true,
           });
           await waitForMoveEnd(map);
+
+          map.off("move", onMove);
+          flownCoords.push([stop.lng, stop.lat]);
+          setLine(flownCoords);
         }
 
-        // 最後拉遠看整條路線的全貌
-        const bounds = routeFlightStops.reduce(
-          (b, s) => b.extend([s.lng, s.lat]),
-          new mapboxgl.LngLatBounds([first.lng, first.lat], [first.lng, first.lat]),
-        );
-        map.fitBounds(bounds, { padding: 60, pitch: 45, duration: 2000 });
+        // 飛到最後一站（羽田）就停住，不再自動拉遠看全貌——
+        // 使用者這時候應該已經可以繼續往下捲，不用等地圖再跑一段動畫。
       },
       { threshold: 0.4 },
     );
