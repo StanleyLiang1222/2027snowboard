@@ -64,7 +64,7 @@ export function RouteFlightMap() {
         tileSize: 512,
         maxzoom: 14,
       });
-      map.setTerrain({ source: "mapbox-dem", exaggeration: 1.4 });
+      map.setTerrain({ source: "mapbox-dem", exaggeration: 2.0 });
 
       // 初始只給起點一個點，路線會在飛行動畫過程中即時長出來，不是一開始就畫好整條。
       map.addSource("route-line", {
@@ -81,14 +81,16 @@ export function RouteFlightMap() {
         id: "route-line-glow",
         type: "line",
         source: "route-line",
-        paint: { "line-color": "#5266eb", "line-width": 8, "line-opacity": 0.25, "line-blur": 3 },
+        slot: "top",
+        paint: { "line-color": "#d4af37", "line-width": 8, "line-opacity": 0.25, "line-blur": 3 },
       });
       map.addLayer({
         id: "route-line",
         type: "line",
         source: "route-line",
+        slot: "top",
         layout: { "line-cap": "round", "line-join": "round" },
-        paint: { "line-color": "#5266eb", "line-width": 3 },
+        paint: { "line-color": "#d4af37", "line-width": 3 },
       });
 
       routeFlightStops.forEach((stop) => {
