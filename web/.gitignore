@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+
+# Photoshop 原始檔——只有匯出的 PNG/JPEG/WebP 會被網站實際引用，
+# .psd 單檔動輒 15–46MB，進 git 只會讓每次 clone/部署變慢，不需要進版控。
+*.psd

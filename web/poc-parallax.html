@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Phase 1 POC — 2D 視差雪景</title>
+    <style>
+      html, body { margin: 0; background: #eef1f5; overflow-x: hidden; }
+      #hud {
+        position: fixed; top: 16px; left: 16px; z-index: 50;
+        font: 12px/1.6 ui-sans-serif, system-ui, sans-serif; color: #3a3a3a;
+        background: rgba(255,255,255,0.82); padding: 10px 14px; border-radius: 8px;
+        max-width: 280px; pointer-events: none;
+      }
+      #hud b { color: #111; }
+
+      /* ============ 桌機版：固定設計稿 + zoom 縮放 + JS 位移 ============ */
+      /* zoom 把整個設計稿（2910px 寬）依視窗寬度整體縮放，
+         子層的位移量會在 JS 裡除回目前的縮放倍率，
+         確保實際位移距離跟捲動距離的視覺比例不會跑掉。 */
+      #canvas {
+        position: relative;
+        width: 2910px;
+        height: 6600px;
+        zoom: var(--z, 1);
+      }
+      .layer { position: absolute; will-change: transform; }
+      .layer img { display: block; max-width: none; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+      /* 主視覺去背圖裁切完後接近正方形，跟 Figma 原本的高瘦框（1444×2165）比例對不上，
+         用 contain 讓整張圖完整顯示、置頂對齊，多出來的空間直接透出後面的雪山，不裁切。 */
+      .hero-visual img { object-fit: contain; object-position: 50% 0%; }
+      .wordmark { position: absolute; will-change: transform; }
+      .wordmark img { display: block; width: 100%; height: 100%; pointer-events: none; }
+
+      .heading {
+        position: absolute; left: 50%; transform: translateX(-50%);
+        font-family: 'Zen Antique', serif; color: #c2c2c2; text-align: center;
+        white-space: nowrap; text-shadow: 0 57px 250px rgba(0,0,0,0.2);
+        margin: 0;
+      }
+
+      body.is-mobile #canvas { display: none; }
+      body.is-mobile #mobile { display: block; }
+
+      /* ============ Pad / Phone 版：獨立、簡化過的直式敘事 ============ */
+      #mobile { display: none; }
+      .m-section {
+        position: relative;
+        min-height: 100svh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #10141c;
+      }
+      .m-bg { position: absolute; inset: 0; }
+      .m-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .m-hero-title {
+        position: relative; z-index: 3;
+        display: flex; flex-direction: column; align-items: center; gap: 4vw;
+        padding: 0 6vw;
+      }
+      .m-hero-title img { width: min(78vw, 420px); height: auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.35)); }
+      /* Stanley 重新裁切過素材，現在接近正方形（不再是又高又長、主體只佔一小塊的
+         透明留白版本），改回單純用寬度撐開＋bottom 定位就安全了，不會再把主體推出
+         畫面外。 */
+      .m-snowboarder {
+        position: absolute; left: 50%; bottom: 2%; z-index: 2;
+        width: min(82vw, 460px); transform: translateX(-50%);
+        pointer-events: none;
+      }
+      .m-snowboarder img { width: 100%; height: auto; display: block; }
+
+      .m-dino-wrap { position: absolute; inset: 0; z-index: 2; }
+      .m-tree-l, .m-tree-r {
+        position: absolute; bottom: -6%; width: 46vw;
+        pointer-events: none; transition: opacity .4s;
+      }
+      /* 左樹疊在恐龍前面做框景（只擋到身體/腳），右樹改到恐龍後面——
+         桌機版兩棵樹都在恐龍前面是刻意的驚嚇效果，手機版畫面小，
+         右樹會直接擋住臉/嘴巴這個視覺重點，所以手機版不要這個遮擋。 */
+      .m-tree-l { left: -8vw; z-index: 4; }
+      .m-tree-r { right: -8vw; z-index: 1; }
+      .m-tree-l img, .m-tree-r img { width: 100%; display: block; }
+      .m-dino {
+        position: absolute; left: 50%; bottom: 6%; width: 78vw; z-index: 5;
+        transform: translate(-140%, 6%) scale(0.86); opacity: 0;
+        transition: transform .8s cubic-bezier(.2,.8,.2,1), opacity .6s ease-out;
+        pointer-events: none;
+      }
+      .m-dino img { width: 100%; display: block; transform: scaleX(-1); }
+      .m-section.in .m-dino { opacity: 1; transform: translate(-50%, 0) scale(1); transition-delay: 0.2s; }
+
+      .m-caption {
+        position: absolute; left: 6vw; bottom: 6vw; z-index: 5;
+        color: #f2efe6; font: 500 13px/1.6 ui-sans-serif, system-ui, sans-serif;
+        letter-spacing: .08em; text-transform: uppercase; opacity: .8;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .m-dino { transition: none; }
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="hud">
+      <div><b>Phase 1 POC</b> — 2D 視差雪景，不接主站</div>
+      <div>來源：Stanley 的 Figma 樣板（byL4GLYp9nRyplxWYqbDlE, node 19:39）</div>
+      <div id="hud-status" style="margin-top:4px; font-weight:600; color:#888;">鼓門狀態：偵測中...</div>
+    </div>
+
+    <!-- ============ 桌機版：圖層順序＝Figma 原始堆疊順序（後面的疊在前面），
+         這是「雪山蓋住 SNOW TRAVEL」「樹擋住暴龍」的唯一依據，不能任意調換。 ============ -->
+    <div id="canvas">
+      <!-- 01 · 雲層（最遠景） -->
+      <div class="layer" data-speed="0.08" style="left:-22px; top:0; width:2910px; height:1439px; z-index:1;">
+        <img src="/images/cloud.png" alt="雲" />
+      </div>
+
+      <!-- 02 · 雪松（近景框景，畫面左緣） -->
+      <div class="layer" data-speed="0.55" style="left:218px; top:917px; width:302px; height:472px; z-index:2;">
+        <img src="/images/tree5.png" alt="雪松" />
+      </div>
+
+      <!-- 03 · SNOW TRAVEL 美術字（置中：left 已換算成固定像素，不再靠 transform 置中，
+           避免每幀被 JS 的 translate 位移覆蓋掉）——會被山蓋住一部分。 -->
+      <div class="wordmark" data-speed="0.18" style="left:97.01px; top:249.41px; width:2722.94px; height:744.5px; z-index:3;">
+        <img src="/poc-parallax/snow-travel.svg" alt="SNOW TRAVEL" />
+      </div>
+
+      <!-- 04 · 雪山（中遠景，蓋住 SNOW TRAVEL 一部分） -->
+      <div class="layer" data-speed="0.15" style="left:-22px; top:285px; width:2910px; height:1439px; z-index:4;">
+        <img src="/images/mountain.png" alt="雪山" />
+      </div>
+
+      <!-- 05 · 雪楽 美術字（置中，同上改固定像素）——蓋在雪山前面，主標題保持完整。 -->
+      <div class="wordmark" data-speed="0.22" style="left:731.51px; top:-142.46px; width:1328.85px; height:888.662px; z-index:5;">
+        <img src="/poc-parallax/setsuraku.svg" alt="雪楽" />
+      </div>
+
+      <!-- 06 · 章節標：路線總覽——未來會併進正式頁面內容，先不做視差，維持原生定位 -->
+      <p class="heading" style="top:4300px; font-size:196px; letter-spacing:1.96px; z-index:6;">路線總覽</p>
+
+      <!-- 07 · 章節標：逐日行程時間軸——同上，不做視差 -->
+      <p class="heading" style="top:6181px; font-size:196px; letter-spacing:-1.96px; z-index:7;">逐日行程時間軸</p>
+
+      <!-- 08 · 主視覺（雪板客跳躍 × 雪山）——捲動時額外放大，做出「衝出畫面」的感覺。
+           Stanley 重新裁切過素材（現在接近正方形，不再是又高又長的透明留白版本），
+           改用 object-fit:contain，不用再靠裁切位置去猜主體在哪。 -->
+      <div class="layer hero-visual" data-speed="0.22" data-burst="0.00022" style="left:520px; top:71px; width:1444px; height:2165px; z-index:8; transform-origin:50% 62%;">
+        <img src="/images/Gemini_Generated_Image_l7ddnzl7ddnzl7dd.png" alt="雪山主視覺" />
+      </div>
+
+      <!-- 09 · 金澤鼓門（中景地標） -->
+      <div class="layer" id="gate-layer" data-speed="0.32" style="left:-67px; top:1266px; width:2955px; height:1968px; z-index:9;">
+        <img src="/images/金澤鼓門_1.png" alt="金澤鼓門" />
+      </div>
+
+      <!-- 10 · 雪松（左，滑雪者旁）——滑鼠靠近時漸漸淡出 -->
+      <div class="layer" data-speed="0.48" data-mouse-fade="1" style="left:-291px; top:121px; width:811px; height:1381px; z-index:10;">
+        <img src="/images/tree2.png" alt="雪松" />
+      </div>
+
+      <!-- 11 · 雪松（右，滑雪者旁）——滑鼠靠近時漸漸淡出 -->
+      <div class="layer" data-speed="0.5" data-mouse-fade="1" style="left:2597px; top:917px; width:328px; height:691px; z-index:11;">
+        <img src="/images/tree3.png" alt="雪松" />
+      </div>
+
+      <!-- 12 · 雪松（左，第二株） -->
+      <div class="layer" data-speed="0.55" style="left:-87px; top:917px; width:507px; height:794px; z-index:12;">
+        <img src="/images/tree5.png" alt="雪松" />
+      </div>
+
+      <!-- 13 · 恐龍（福井章節高潮）——判斷金澤鼓門全部出現後，由左至右滑出，雙腳踩在雪地上 -->
+      <div class="layer" id="dino-layer" data-speed="0.32" data-reveal-x="-1900" style="left:139px; top:1720px; width:1602px; height:1536px; z-index:16;">
+        <img src="/images/暴龍.png" alt="暴龍" style="transform:scaleX(-1);" />
+      </div>
+
+      <!-- 14 · 雪松（右，大株，蓋在暴龍前面） -->
+      <div class="layer" data-speed="0.5" style="left:2122px; top:1590px; width:1151px; height:2937px; z-index:14;">
+        <img src="/images/tree4.png" alt="雪松" />
+      </div>
+
+      <!-- 15 · 雪松（左，大株，蓋在暴龍前面——驚嚇效果的關鍵遮擋層） -->
+      <div class="layer" data-speed="0.46" style="left:-510px; top:1807px; width:1457px; height:3059px; z-index:15;">
+        <img src="/images/tree2.png" alt="雪松" />
+      </div>
+    </div>
+
+    <!-- ============ Pad / Phone 版：獨立、簡化過的直式敘事，不用 zoom 縮放整張設計稿 ============ -->
+    <div id="mobile">
+      <section class="m-section">
+        <div class="m-bg"><img src="/images/cloud.png" alt="雲" /></div>
+        <div class="m-bg"><img src="/images/mountain.png" alt="雪山" /></div>
+        <div class="m-snowboarder"><img src="/images/Gemini_Generated_Image_l7ddnzl7ddnzl7dd.png" alt="雪山主視覺" /></div>
+        <div class="m-hero-title">
+          <img src="/poc-parallax/setsuraku.svg" alt="雪楽" />
+        </div>
+      </section>
+
+      <section class="m-section" id="m-dino-section">
+        <div class="m-bg"><img src="/images/金澤鼓門_1.png" alt="金澤鼓門" /></div>
+        <div class="m-dino-wrap">
+          <div class="m-dino"><img src="/images/暴龍.png" alt="暴龍" /></div>
+          <div class="m-tree-l"><img src="/images/tree2.png" alt="雪松" /></div>
+          <div class="m-tree-r"><img src="/images/tree4.png" alt="雪松" /></div>
+        </div>
+        <div class="m-caption">福井 · 恐龍王國</div>
+      </section>
+    </div>
+
+    <script type="module" src="/src/parallax-poc/main.js"></script>
+  </body>
+</html>

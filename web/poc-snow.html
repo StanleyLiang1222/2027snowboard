@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Phase 1 POC — 雪景場景</title>
+    <style>
+      html, body { margin: 0; background: #171721; color: #ededf3; font-family: ui-sans-serif, system-ui, sans-serif; }
+      #stage { position: fixed; inset: 0; z-index: 0; }
+      #stage canvas { display: block; width: 100%; height: 100%; }
+      #fallback {
+        position: fixed; inset: 0; z-index: 0; display: none;
+        background: radial-gradient(ellipse at 50% 30%, #2a3550 0%, #171721 70%);
+      }
+      #fallback.show { display: block; }
+      #hud {
+        position: fixed; top: 16px; left: 16px; z-index: 2;
+        font-size: 12px; line-height: 1.6; color: #c3c3cc;
+        background: rgba(23,23,33,0.6); padding: 12px 16px; border-radius: 8px;
+        max-width: 280px; pointer-events: none;
+      }
+      #hud b { color: #ededf3; }
+      #spacer { position: relative; z-index: 1; height: 500vh; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="stage"><canvas id="scene"></canvas></div>
+    <div id="fallback"></div>
+    <div id="hud">
+      <div><b>Phase 1 POC</b> — 獨立驗證頁，不接主站</div>
+      <div>fps: <span id="hud-fps">–</span> · pixelRatio scale: <span id="hud-scale">–</span></div>
+      <div>scroll progress: <span id="hud-progress">0%</span></div>
+      <div id="hud-mode"></div>
+    </div>
+    <div id="spacer"></div>
+    <script type="module" src="/src/three-poc/scene.js"></script>
+  </body>
+</html>

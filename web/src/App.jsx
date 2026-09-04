@@ -1,7 +1,7 @@
 import { Nav } from "./components/Nav";
 import { Snowfall } from "./components/Snowfall";
 import { ToneTransition } from "./components/ToneTransition";
-import { Hero } from "./sections/Hero";
+import { ParallaxHero } from "./components/ParallaxHero";
 import { RouteStrip } from "./sections/RouteStrip";
 import { Itinerary } from "./sections/Itinerary";
 import { Gallery } from "./sections/Gallery";
@@ -15,7 +15,7 @@ function App() {
     <div className="min-h-screen bg-onyx-canvas">
       <Snowfall />
       <Nav />
-      <Hero />
+      <ParallaxHero />
       <RouteStrip />
       <Itinerary />
       <ToneTransition from="dark" to="light" />
