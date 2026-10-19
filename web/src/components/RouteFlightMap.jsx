@@ -18,7 +18,7 @@ function waitForMoveEnd(map) {
   return new Promise((resolve) => map.once("moveend", resolve));
 }
 
-// 神戶 → 福井 → 金澤 → 越後中里 → 羽田 的真實地形飛行動畫。
+// 神戶 → 福井 → 金澤 → 越後中里 → 東京 → 羽田 的真實地形飛行動畫。
 // 捲到這個區塊第一次進入視窗時，鏡頭依序飛過每個城市，展現本州中部的山脈起伏。
 export function RouteFlightMap() {
   const containerRef = useRef(null);

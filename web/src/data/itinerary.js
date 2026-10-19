@@ -4,10 +4,10 @@
 export const overview = {
   title: "2027 金光閃閃與恐龍共同滑雪行程",
   subtitle: "親子探索版",
-  dateRange: "2027/01/26（二）～ 2027/02/03（三）",
-  duration: "9 天 8 夜",
+  dateRange: "2027/01/22（五）～ 2027/01/31（日）",
+  duration: "10 天 9 夜",
   members: "2 大 1 小（9 歲國小學童）",
-  route: ["神戶", "福井", "金澤", "越後中里（住宿基地）", "機場返台"],
+  route: ["神戶", "福井", "金澤", "越後中里（住宿基地）", "東京", "機場返台"],
   highlights: [
     {
       title: "恐龍探索",
@@ -19,7 +19,7 @@ export const overview = {
     },
     {
       title: "舒適動線",
-      desc: "越後中里「旅館・レンタル ふるさと」連住 4 晚，滑雪場「中里スキーセンター」直結 JR 越後中里站，免除每日往返與雪地拖行李之苦。",
+      desc: "越後中里「旅館・レンタル ふるさと」連住 3 晚，滑雪場「中里スキーセンター」直結 JR 越後中里站，免除每日往返與雪地拖行李之苦。",
     },
   ],
   weather: {
@@ -39,8 +39,8 @@ export const transit = {
       price: null,
       coverage: [
         "Day 2：神戶 ➔ 京都/敦賀 ➔ 福井（特急 Thunder Bird + 北陸新幹線）",
-        "Day 3：福井 ➔ 金澤（北陸新幹線，車程約 35 分鐘）",
-        "Day 5：金澤 ➔ 高崎（北陸新幹線直達，車程約 1 小時 40 分鐘），高崎再轉乘往越後湯澤・越後中里方向（轉乘路線與時刻出發前確認）",
+        "Day 4：福井 ➔ 金澤（北陸新幹線，車程約 35 分鐘）",
+        "Day 6：金澤 ➔ 高崎（北陸新幹線直達，車程約 1 小時 40 分鐘），高崎再轉乘往越後湯澤・越後中里方向（轉乘路線與時刻出發前確認）",
         "Day 2～Day 8 期間適用之市區 JR 路線。",
       ],
     },
@@ -51,8 +51,12 @@ export const transit = {
       desc: "單買關空特急 HARUKA（轉乘）或 機場高速船 / 利木津巴士。",
     },
     {
-      label: "Day 9（越後中里 ➔ 東京/機場）",
-      desc: "單買越後中里 ➔ 越後湯澤接駁 + 上越新幹線 + 機場特急快線（N'EX / Skyliner）。",
+      label: "Day 9（越後中里 ➔ 東京）",
+      desc: "單買越後中里 ➔ 越後湯澤接駁 + 上越新幹線至東京。",
+    },
+    {
+      label: "Day 10（東京 ➔ 機場）",
+      desc: "單買東京 ➔ 羽田機場（東京單軌電車 / 京急線，依住宿位置選擇）。",
     },
   ],
 };
@@ -60,7 +64,7 @@ export const transit = {
 export const days = [
   {
     id: 1,
-    date: "01/26 (二)",
+    date: "01/22 (五)",
     theme: "抵達神戶・海港之夜",
     activities: [
       { time: "下午", text: "抵達神戶，飯店 Check-in 卸下行李休整" },
@@ -75,20 +79,17 @@ export const days = [
   },
   {
     id: 2,
-    date: "01/27 (三)",
-    theme: "恐龍王國・勝山大冒險",
+    date: "01/23 (六)",
+    theme: "抵達福井・恐龍廣場",
     activities: [
       {
         time: "上午",
-        text: "開啟用拱形 Pass，搭特急轉新幹線抵達福井；在 JR 福井站恐龍廣場與機械動態恐龍合影；搭恐龍主題巴士前往勝山",
+        text: "開啟用拱形 Pass，搭特急轉新幹線抵達福井；在 JR 福井站恐龍廣場與機械動態恐龍合影",
       },
-      {
-        time: "下午",
-        text: "福井縣立恐龍博物館（探索 50 具恐龍全身骨骼、三面沉浸式劇院、參加室內化石研究體驗）",
-      },
-      { time: "晚上", text: "返回福井市區，享用在地名物料理" },
+      { time: "下午", text: "飯店 Check-in 放行李，福井站周邊輕鬆散步" },
+      { time: "晚上", text: "享用在地名物料理" },
     ],
-    transport: "JR 特急/新幹線、恐龍主題巴士",
+    transport: "JR 特急/新幹線",
     passTag: "啟用 Pass D1",
     lodging: null,
     lodgingCity: "福井",
@@ -97,7 +98,26 @@ export const days = [
   },
   {
     id: 3,
-    date: "01/28 (四)",
+    date: "01/24 (日)",
+    theme: "恐龍王國・勝山大冒險",
+    activities: [
+      { time: "上午", text: "搭恐龍主題巴士前往勝山" },
+      {
+        time: "下午",
+        text: "福井縣立恐龍博物館（探索 50 具恐龍全身骨骼、三面沉浸式劇院、參加室內化石研究體驗）",
+      },
+      { time: "晚上", text: "返回福井市區休息" },
+    ],
+    transport: "恐龍主題巴士",
+    passTag: "Pass D2",
+    lodging: null,
+    lodgingCity: "福井",
+    meal: null,
+    mealNote: null,
+  },
+  {
+    id: 4,
+    date: "01/25 (一)",
     theme: "福井慢活 ➔ 前進金澤",
     activities: [
       { time: "上午（鬆快版）", text: "足羽山公園 / 自然史博物館輕鬆散步，眺望福井雪景" },
@@ -105,15 +125,15 @@ export const days = [
       { time: "晚上", text: "金澤站周邊品嘗熱騰騰名物料理" },
     ],
     transport: "北陸新幹線（福井 ➔ 金澤）",
-    passTag: "Pass D2",
+    passTag: "Pass D3",
     lodging: null,
     lodgingCity: "金澤",
     meal: null,
     mealNote: "金澤特色關東煮 / 迴轉壽司",
   },
   {
-    id: 4,
-    date: "01/29 (五)",
+    id: 5,
+    date: "01/26 (二)",
     theme: "金澤・金箔手作與名園",
     activities: [
       { time: "上午", text: "兼六園（賞雪吊美景、尋找徽軫石燈籠）" },
@@ -121,15 +141,15 @@ export const days = [
       { time: "傍晚", text: "金澤城公園散步" },
     ],
     transport: "城下町周遊巴士 / 步行",
-    passTag: "Pass D3",
+    passTag: "Pass D4",
     lodging: null,
     lodgingCity: "金澤",
     meal: null,
     mealNote: "近江町市場海鮮丼",
   },
   {
-    id: 5,
-    date: "01/30 (六)",
+    id: 6,
+    date: "01/27 (三)",
     theme: "金澤當代藝術 ➔ 越後中里基地",
     activities: [
       { time: "上午", text: "金澤21世紀美術館（參觀神奇《泳池》拍水底錯覺照、戶外互動彩色裝置）" },
@@ -137,22 +157,6 @@ export const days = [
       { time: "晚上", text: "旅館休整，備妥隔日滑雪裝備（雪地零食、防寒用品建議在高崎轉乘時先採買）" },
     ],
     transport: "北陸新幹線（金澤 ➔ 高崎）＋ 轉乘往越後中里（路線與時刻待確認）",
-    passTag: "Pass D4",
-    lodging: "旅館・レンタル ふるさと",
-    lodgingCity: "越後中里",
-    meal: null,
-    mealNote: null,
-  },
-  {
-    id: 6,
-    date: "01/31 (日)",
-    theme: "中里スキーセンター (Day 1)",
-    activities: [
-      { time: "上午", text: "由越後中里住宿前往中里スキーセンター（直結 JR 越後中里站）" },
-      { time: "下午", text: "租借裝備（滑雪板、雪鞋、雪衣可於雪場租借；手套與帽子需自備），親子初級滑雪與雪上玩樂" },
-      { time: "傍晚", text: "返回「旅館・レンタル ふるさと」休息、享用晚餐" },
-    ],
-    transport: "住宿 ⇋ 中里スキーセンター（同在越後中里，交通方式待確認）",
     passTag: "Pass D5",
     lodging: "旅館・レンタル ふるさと",
     lodgingCity: "越後中里",
@@ -161,11 +165,12 @@ export const days = [
   },
   {
     id: 7,
-    date: "02/01 (一)",
-    theme: "中里スキーセンター (Day 2)",
+    date: "01/28 (四)",
+    theme: "中里スキーセンター (Day 1)",
     activities: [
-      { time: "全日", text: "中里スキーセンター續滑，家庭滑雪進階練習與雪景合照" },
-      { time: "傍晚", text: "返回「旅館・レンタル ふるさと」泡腳暖身、休息" },
+      { time: "上午", text: "由越後中里住宿前往中里スキーセンター（直結 JR 越後中里站）" },
+      { time: "下午", text: "租借裝備（滑雪板、雪鞋、雪衣可於雪場租借；手套與帽子需自備），親子初級滑雪與雪上玩樂" },
+      { time: "傍晚", text: "返回「旅館・レンタル ふるさと」休息、享用晚餐" },
     ],
     transport: "住宿 ⇋ 中里スキーセンター（同在越後中里，交通方式待確認）",
     passTag: "Pass D6",
@@ -176,14 +181,11 @@ export const days = [
   },
   {
     id: 8,
-    date: "02/02 (二)",
-    theme: "中里スキーセンター (Day 3 / 彈性日)",
+    date: "01/29 (五)",
+    theme: "中里スキーセンター (Day 2)",
     activities: [
-      {
-        time: "全日（滑雪/彈性）",
-        text: "續戰中里スキーセンター精進滑雪；下午視體力彈性休息或在越後湯澤一帶走走",
-      },
-      { time: "傍晚", text: "歸還雪具，回「旅館・レンタル ふるさと」整理大件行李" },
+      { time: "全日", text: "中里スキーセンター續滑，家庭滑雪進階練習與雪景合照" },
+      { time: "傍晚", text: "歸還雪具，回「旅館・レンタル ふるさと」泡腳暖身、整理大件行李" },
     ],
     transport: "住宿 ⇋ 中里スキーセンター（同在越後中里，交通方式待確認）",
     passTag: "Pass D7",
@@ -194,13 +196,28 @@ export const days = [
   },
   {
     id: 9,
-    date: "02/03 (三)",
-    theme: "越後中里 ➔ 機場 ➔ 台灣",
+    date: "01/30 (六)",
+    theme: "越後中里 ➔ 東京",
     activities: [
-      { time: "上午", text: "退房後經越後湯澤搭乘上越新幹線前往東京，轉乘機場特急" },
+      { time: "上午", text: "退房後經越後湯澤搭乘上越新幹線前往東京" },
+      { time: "下午～晚上", text: "東京行程待補，飯店 Check-in" },
+    ],
+    transport: "越後中里 ➔ 越後湯澤 + 上越新幹線（自費/單買）",
+    passTag: null,
+    lodging: null,
+    lodgingCity: "東京",
+    meal: null,
+    mealNote: null,
+  },
+  {
+    id: 10,
+    date: "01/31 (日)",
+    theme: "東京 ➔ 機場 ➔ 台灣",
+    activities: [
+      { time: "上午", text: "退房後前往羽田機場" },
       { time: "下午", text: "機場免稅店採買最後伴手禮，搭機返回溫暖的家" },
     ],
-    transport: "越後中里 ➔ 越後湯澤 + 新幹線 + 機場快線（自費/單買）",
+    transport: "東京 ➔ 羽田機場（電車，自費/單買）",
     passTag: null,
     lodging: "溫暖的家",
     lodgingCity: null,
@@ -307,7 +324,7 @@ export const spots = [
         photoSlug: "takasaki-guesthouse",
         theme: "family",
         highlight:
-          "連住 4 晚（1/30～2/2）的住宿基地，位於越後中里，與中里スキーセンター同在一區，每天不必再搭新幹線往返，晚間可在旅館好好休息。",
+          "連住 3 晚（1/27～1/30）的住宿基地，位於越後中里，與中里スキーセンター同在一區，每天不必再搭新幹線往返，晚間可在旅館好好休息。",
         transport: "地址與從最近車站的步行／接送方式待確認，建議向旅館詢問。",
         hours: null,
         price: null,

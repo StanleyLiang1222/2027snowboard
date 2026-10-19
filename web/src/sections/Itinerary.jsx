@@ -5,7 +5,7 @@ import { ThemeBadge, PendingBadge } from "../components/Badge";
 
 export function Itinerary() {
   return (
-    <SectionContainer id="itinerary" eyebrow="Day 1 – 9" title="逐日行程時間軸">
+    <SectionContainer id="itinerary" eyebrow="Day 1 – 10" title="逐日行程時間軸">
       <div className="flex flex-col gap-6">
         {days.map((day) => (
           <div key={day.id} className="flex gap-4 sm:gap-6">
