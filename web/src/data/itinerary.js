@@ -31,6 +31,32 @@ export const overview = {
 };
 
 export const transit = {
+  flights: [
+    {
+      id: "outbound",
+      label: "去程",
+      dayLabel: "Day 1",
+      date: "01/22 (五)",
+      flightNo: "BR 176",
+      airline: "長榮航空",
+      type: "直飛",
+      duration: "2 小時 30 分",
+      depart: { time: "14:30", code: "TPE", airport: "臺灣桃園機場", terminal: "2 航廈" },
+      arrive: { time: "18:00", code: "UKB", airport: "神戶機場", terminal: "2 航廈" },
+    },
+    {
+      id: "return",
+      label: "回程",
+      dayLabel: "Day 10",
+      date: "01/31 (日)",
+      flightNo: "BR 189",
+      airline: "長榮航空",
+      type: "直飛",
+      duration: "4 小時 0 分",
+      depart: { time: "10:25", code: "HND", airport: "東京羽田國際機場", terminal: "3 航廈" },
+      arrive: { time: "13:25", code: "TSA", airport: "臺北松山機場", terminal: "1 航廈" },
+    },
+  ],
   passes: [
     {
       id: "hokuriku",
@@ -47,8 +73,8 @@ export const transit = {
   ],
   selfPay: [
     {
-      label: "Day 1（關西機場 ➔ 神戶）",
-      desc: "單買關空特急 HARUKA（轉乘）或 機場高速船 / 利木津巴士。",
+      label: "Day 1（神戶機場 ➔ 神戶市區）",
+      desc: "單買 Port Liner 至三宮，或搭計程車（依住宿位置選擇）。",
     },
     {
       label: "Day 9（越後中里 ➔ 東京）",
@@ -67,10 +93,10 @@ export const days = [
     date: "01/22 (五)",
     theme: "抵達神戶・海港之夜",
     activities: [
-      { time: "下午", text: "抵達神戶，飯店 Check-in 卸下行李休整" },
-      { time: "晚上", text: "美利堅公園漫步、神戶港塔夜景打卡、BE KOBE 地標合影" },
+      { time: "18:00", text: "搭乘 BR 176（14:30 自桃園起飛）抵達神戶機場，入境後前往市區" },
+      { time: "晚上", text: "飯店 Check-in 卸下行李休整；視體力在神戶港塔周邊夜景散步、BE KOBE 地標合影" },
     ],
-    transport: "機場快線 / JR 神戶線（自費/IC卡）",
+    transport: "神戶機場 ➔ 三宮（Port Liner / 計程車，自費）",
     passTag: null,
     lodging: null,
     lodgingCity: "神戶",
@@ -214,8 +240,8 @@ export const days = [
     date: "01/31 (日)",
     theme: "東京 ➔ 機場 ➔ 台灣",
     activities: [
-      { time: "上午", text: "退房後前往羽田機場" },
-      { time: "下午", text: "機場免稅店採買最後伴手禮，搭機返回溫暖的家" },
+      { time: "清晨", text: "退房後前往羽田機場（第 3 航廈），建議 08:00 前抵達辦理登機；出境後可在免稅店採買最後伴手禮" },
+      { time: "10:25", text: "搭乘 BR 189 自羽田起飛，13:25 抵達臺北松山機場，返回溫暖的家" },
     ],
     transport: "東京 ➔ 羽田機場（電車，自費/單買）",
     passTag: null,
