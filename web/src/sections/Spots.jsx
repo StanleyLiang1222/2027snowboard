@@ -87,6 +87,7 @@ export function Spots() {
                 <div className="grid gap-6 sm:grid-cols-2">
                   {fukuiFood.map((food) => (
                     <Card key={food.name} className="flex flex-col gap-3">
+                      <PhotoSlot slug="fukui-food" src={food.photo} alt={food.name} />
                       <div className="flex items-start justify-between gap-3">
                         <h4 className="font-display text-lg font-medium text-ivory-text">{food.name}</h4>
                         <ThemeBadge theme="family">{food.tag}</ThemeBadge>
