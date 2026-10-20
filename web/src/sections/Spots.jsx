@@ -1,4 +1,4 @@
-import { spots } from "../data/itinerary";
+import { spots, fukuiFood } from "../data/itinerary";
 import { SectionContainer } from "../components/SectionContainer";
 import { Card } from "../components/Card";
 import { PhotoSlot } from "../components/PhotoSlot";
@@ -80,6 +80,29 @@ export function Spots() {
                 </Card>
               ))}
             </div>
+
+            {group.region === "福井地區" && (
+              <div className="mt-10">
+                <h3 className="font-display mb-5 text-lg font-medium text-ivory-text">福井美食</h3>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {fukuiFood.map((food) => (
+                    <Card key={food.name} className="flex flex-col gap-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <h4 className="font-display text-lg font-medium text-ivory-text">{food.name}</h4>
+                        <ThemeBadge theme="family">{food.tag}</ThemeBadge>
+                      </div>
+                      <p className="text-sm leading-relaxed text-ivory-text/90">{food.note}</p>
+                      {food.recommend && (
+                        <p className="border-t border-mist-border/15 pt-3 text-sm text-ivory-text/90">
+                          <span className="text-xs uppercase tracking-wide text-ash-text">推薦店家　</span>
+                          {food.recommend}
+                        </p>
+                      )}
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
