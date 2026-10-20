@@ -15,7 +15,7 @@ export const overview = {
     },
     {
       title: "親子互動",
-      desc: "金澤金箔筷子/木盒 DIY、金澤百番街站內逛街採買、中里スキーセンター親子滑雪。",
+      desc: "金澤金箔筷子/木盒 DIY、21世紀美術館《泳池》錯覺體驗、中里スキーセンター親子滑雪。",
     },
     {
       title: "舒適動線",
@@ -163,6 +163,7 @@ export const days = [
     theme: "金澤・金箔手作與名園",
     activities: [
       { time: "上午", text: "兼六園（賞雪吊美景、尋找徽軫石燈籠）" },
+      { time: "中午", text: "金澤21世紀美術館（距兼六園不遠；參觀神奇《泳池》拍水底錯覺照、戶外互動彩色裝置，泳池地下展區需事前線上預約）" },
       { time: "下午", text: "東茶屋街（體驗金箔筷/木盒 DIY 貼箔手作，品嘗整片貼滿的金箔冰淇淋）" },
       { time: "傍晚", text: "金澤城公園散步" },
     ],
@@ -314,6 +315,19 @@ export const spots = [
         mapQuery: "兼六園",
       },
       {
+        name: "金澤21世紀美術館",
+        nameEn: "21st Century Museum",
+        photoSlug: "21st-century-museum",
+        theme: "family",
+        highlight:
+          "現代圓形玻璃建築，最著名展品為林德羅・厄利什的《泳池》（The Swimming Pool），可體驗水上與水下的錯覺互動拍照。距兼六園不遠，可與兼六園排在同一個上午～中午。",
+        transport: "搭乘巴士至「廣坂・21世紀美術館」站下車即達；從兼六園可步行前往。",
+        hours: null,
+        price: "泳池地下展區需事前線上預約門票",
+        winterNote: "室內展區溫暖，適合冬季親子避寒看展。",
+        mapQuery: "金沢21世紀美術館",
+      },
+      {
         name: "金澤百番街",
         nameEn: "Kanazawa Hyakubangai",
         photoSlug: "kanazawa-station",
@@ -378,10 +392,11 @@ export const routePins = [
   { order: 4, name: "足羽山公園" },
   { order: 5, name: "金澤車站（鼓門）" },
   { order: 6, name: "兼六園 ＆ 金澤城公園" },
-  { order: 7, name: "金澤東茶屋街（金箔體驗工坊）" },
-  { order: 8, name: "金澤百番街（金澤站內購物商場）" },
-  { order: 9, name: "旅館・レンタル ふるさと（越後中里住宿基地）" },
-  { order: 10, name: "中里スキーセンター（親子滑雪）" },
+  { order: 7, name: "金澤21世紀美術館" },
+  { order: 8, name: "金澤東茶屋街（金箔體驗工坊）" },
+  { order: 9, name: "金澤百番街（金澤站內購物商場）" },
+  { order: 10, name: "旅館・レンタル ふるさと（越後中里住宿基地）" },
+  { order: 11, name: "中里スキーセンター（親子滑雪）" },
 ];
 
 export const packingList = [
