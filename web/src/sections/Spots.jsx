@@ -52,6 +52,30 @@ export function Spots() {
                     </div>
                   </div>
 
+                  {spot.foods && (
+                    <div className="border-t border-mist-border/15 pt-4">
+                      <p className="text-xs uppercase tracking-wide text-ash-text">必吃美食</p>
+                      <ul className="mt-3 flex flex-col gap-4">
+                        {spot.foods.map((food) => (
+                          <li key={food.name} className="text-sm">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="font-display font-medium text-ivory-text">{food.name}</span>
+                              <span className="rounded-tags border border-mist-border/30 px-2 py-0.5 text-xs text-ash-text">
+                                {food.category}
+                              </span>
+                            </div>
+                            <p className="mt-1 leading-relaxed text-ivory-text/90">{food.note}</p>
+                            {(food.price || food.hours) && (
+                              <p className="mt-1 text-xs text-ash-text">
+                                {[food.price, food.hours].filter(Boolean).join("　｜　")}
+                              </p>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
                   <GoogleMapsLink query={spot.mapQuery} />
                 </Card>
               ))}
