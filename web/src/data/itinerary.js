@@ -15,7 +15,7 @@ export const overview = {
     },
     {
       title: "親子互動",
-      desc: "金澤金箔筷子/木盒 DIY、21世紀美術館《泳池》錯覺體驗、中里スキーセンター親子滑雪。",
+      desc: "金澤金箔筷子/木盒 DIY、金澤百番街站內逛街採買、中里スキーセンター親子滑雪。",
     },
     {
       title: "舒適動線",
@@ -176,9 +176,9 @@ export const days = [
   {
     id: 6,
     date: "01/27 (三)",
-    theme: "金澤當代藝術 ➔ 越後中里基地",
+    theme: "金澤站購物 ➔ 越後中里基地",
     activities: [
-      { time: "上午", text: "金澤21世紀美術館（參觀神奇《泳池》拍水底錯覺照、戶外互動彩色裝置）" },
+      { time: "上午", text: "金澤百番街（Rinto・Anto，位於金澤站內）逛街，採買伴手禮、雪地零食與防寒小物（各店營業時間不同）" },
       { time: "下午", text: "搭乘北陸新幹線至高崎（約 1 小時 40 分鐘，沿途欣賞信越雪山群），轉乘前往越後中里並入住「旅館・レンタル ふるさと」" },
       { time: "晚上", text: "旅館休整，備妥隔日滑雪裝備（雪地零食、防寒用品建議在高崎轉乘時先採買）" },
     ],
@@ -314,17 +314,17 @@ export const spots = [
         mapQuery: "兼六園",
       },
       {
-        name: "金澤21世紀美術館",
-        nameEn: "21st Century Museum",
-        photoSlug: "21st-century-museum",
+        name: "金澤百番街",
+        nameEn: "Kanazawa Hyakubangai",
+        photoSlug: "kanazawa-station",
         theme: "family",
         highlight:
-          "現代圓形玻璃建築，最著名展品為林德羅・厄利什的《泳池》（The Swimming Pool），可體驗水上與水下的錯覺互動拍照。",
-        transport: "搭乘巴士至「廣坂・21世紀美術館」站下車即達。",
-        hours: null,
-        price: "泳池地下展區需事前線上預約門票",
-        winterNote: "室內展區溫暖，適合冬季親子避寒看展。",
-        mapQuery: "金沢21世紀美術館",
+          "位於金澤站內的購物商場（Rinto、Anto 等區），伴手禮、北陸名產、餐廳與超市集中，進出站動線方便，適合滑雪前補齊零食與小物。",
+        transport: "JR 金澤站直結，出站即達，不需另外搭車。",
+        hours: "購物多為 08:30～20:00、餐飲約 11:00～22:00（各店不同，出發前確認）",
+        price: null,
+        winterNote: "站內暖和、免走雪地，適合帶著行李進出；若想逛傳統百貨，可改去步行約 10～15 分鐘的金澤エムザ（營業時間為百貨公司型態，請事前確認）。",
+        mapQuery: "金沢百番街",
       },
     ],
   },
@@ -379,7 +379,7 @@ export const routePins = [
   { order: 5, name: "金澤車站（鼓門）" },
   { order: 6, name: "兼六園 ＆ 金澤城公園" },
   { order: 7, name: "金澤東茶屋街（金箔體驗工坊）" },
-  { order: 8, name: "金澤21世紀美術館" },
+  { order: 8, name: "金澤百番街（金澤站內購物商場）" },
   { order: 9, name: "旅館・レンタル ふるさと（越後中里住宿基地）" },
   { order: 10, name: "中里スキーセンター（親子滑雪）" },
 ];
