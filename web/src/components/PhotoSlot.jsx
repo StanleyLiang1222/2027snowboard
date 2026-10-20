@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-// 圖片插槽：優先讀取 /public/images/<slug>.jpg，找不到檔案時自動退回漸層佔位背景。
+// 圖片插槽：有指定 src 就用該路徑（中文檔名會自動編碼），否則讀取 /public/images/<slug>.jpg；
+// 找不到檔案時自動退回漸層佔位背景。
 // 妳之後只要把對應命名的照片放進 public/images/ 資料夾即可自動換上。
-export function PhotoSlot({ slug, alt, className = "", aspect = "aspect-4/3" }) {
+export function PhotoSlot({ slug, src, alt, className = "", aspect = "aspect-4/3" }) {
   const [failed, setFailed] = useState(false);
 
   if (failed) {
@@ -18,7 +19,7 @@ export function PhotoSlot({ slug, alt, className = "", aspect = "aspect-4/3" }) 
 
   return (
     <img
-      src={`/images/${slug}.jpg`}
+      src={src ? encodeURI(src) : `/images/${slug}.jpg`}
       alt={alt}
       onError={() => setFailed(true)}
       className={`${aspect} ${className} rounded-cards object-cover w-full grayscale-[15%] brightness-90 saturate-75`}

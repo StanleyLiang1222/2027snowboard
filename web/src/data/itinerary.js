@@ -318,6 +318,7 @@ export const spots = [
         name: "金澤城公園",
         nameEn: "Kanazawa Castle Park",
         photoSlug: "kanazawa-castle",
+        photo: "/images/金澤城.png",
         theme: "family",
         highlight:
           "曾是加賀藩前田家統治的核心據點，天守閣 1602 年遭雷擊燒毀後未再重建。園內石川門、三十間長屋、鶴丸倉庫為國家重要文化財；菱櫓、五十間長屋、橋爪門續櫓是 2001 年以傳統工法復原，內部可參觀。與兼六園相距很近，適合連續參觀。",
@@ -344,6 +345,7 @@ export const spots = [
         name: "金澤21世紀美術館",
         nameEn: "21st Century Museum",
         photoSlug: "21st-century-museum",
+        photo: "/images/21世紀美術館.png",
         theme: "family",
         highlight:
           "以「與城市共生的開放式美術館」為概念的圓形玻璃帷幕建築，外觀看不到明顯正門。最著名展品為林德羅・厄利什的《泳池》（The Swimming Pool），可體驗水上與水下的錯覺互動拍照，進入泳池需另外購票。距兼六園不遠，可與兼六園排在同一個上午～中午。",
@@ -354,22 +356,10 @@ export const spots = [
         mapQuery: "金沢21世紀美術館",
       },
       {
-        name: "鈴木大拙館",
-        nameEn: "D.T. Suzuki Museum",
-        photoSlug: "suzuki-daisetz",
-        theme: "family",
-        highlight:
-          "（備選）以出生於金澤的佛教哲學家鈴木大拙為主題，由谷口吉生設計。值得看的不是大量展品，而是建築與庭園營造出的寧靜氛圍，「水鏡之庭」倒映天空與建築，適合放慢腳步感受禪意。",
-        transport: "從金澤21世紀美術館步行約 10 分鐘，適合排在一起造訪。",
-        hours: null,
-        price: null,
-        winterNote: "館內講求安靜，帶小朋友入館前先提醒輕聲慢行。",
-        mapQuery: "鈴木大拙館",
-      },
-      {
         name: "東茶屋街・金箔工藝體驗",
         nameEn: null,
         photoSlug: "higashi-chaya",
+        photo: "/images/東茶屋街.png",
         theme: "gold",
         highlight:
           "保留江戶風情的木造老街，被指定為國家重要傳統建造物群保存地區，整排格子窗茶屋沿石板路排列；部分茶屋改建為餐廳、咖啡店與工藝店，可品嚐和菓子、抹茶與金箔甜點。9 歲孩子可親自體驗在木筷、小木盒上貼付真金箔（約 40～60 分鐘），課後再享用人手一支的金箔冰淇淋。",
@@ -383,6 +373,7 @@ export const spots = [
         name: "主計町茶屋街",
         nameEn: "Kazuemachi Chaya District",
         photoSlug: "kazuemachi-chaya",
+        photo: "/images/主計町茶屋街.png",
         theme: "family",
         highlight:
           "（備選）金澤三大茶屋街之一，兩側是千本格子的老屋，同樣是國家重要傳統建造物群保存地區。白天適合拍古街與淺野川，傍晚燈光亮起更有情調；街尾有「暗坂」與「明坂」兩條石階。距東茶屋街步行約 5 分鐘，可順遊。",
@@ -396,6 +387,7 @@ export const spots = [
         name: "長町武家屋敷跡・野村家",
         nameEn: "Nagamachi Samurai District",
         photoSlug: "nagamachi-buke",
+        photo: "/images/長町武家屋敷跡.png",
         theme: "family",
         highlight:
           "（備選）過去加賀藩中級武士居住的區域，保留土牆、石板路與傳統街景；冬季會在土牆外鋪上稻草蓆「薦掛」，是金澤獨有的冬日風景。「武家屋敷跡 野村家」是區域內唯一開放參觀的武家屋敷，庭園曾入選美國庭園專門誌 2003 年日本庭園排行第 3 名，並獲米其林綠色指南 2 星。",
@@ -409,6 +401,7 @@ export const spots = [
         name: "尾山神社",
         nameEn: "Oyama Shrine",
         photoSlug: "oyama-shrine",
+        photo: "/images/尾山神社.png",
         theme: "family",
         highlight:
           "（備選）1873 年創建，供奉加賀藩首代藩主前田利家與其正室松。入口的「神門」融合和、漢、洋三種樣式，頂端彩色玻璃窗在陽光下特別醒目，已指定為國家重要文化財。就在香林坊旁邊，離金澤城與長町武家屋敷不遠。",
@@ -422,6 +415,7 @@ export const spots = [
         name: "西茶屋街・妙立寺（忍者寺）",
         nameEn: "Nishi Chaya District / Myoryuji",
         photoSlug: "myoryuji",
+        photo: "/images/妙立寺（忍者寺）.png",
         theme: "family",
         highlight:
           "（備選）西茶屋街是金澤三大茶屋街之一，規模比東茶屋街小、較適合悠閒散步，街區內有茶屋資料館、咖啡店與和菓子老舖。旁邊的妙立寺因設計大量隱藏機關被暱稱為「忍者寺」，外觀 2 層、實際為 7 層構造，有 23 個房間與 29 座階梯；完全預約制導覽，約 40 分鐘，堂內全程禁止攝影，對 9 歲孩子相當有趣。",
@@ -430,45 +424,6 @@ export const spots = [
         price: "西茶屋資料館免費；妙立寺：中學生以上 1,200 日圓、小學生 800 日圓（未就學兒童無法入場）",
         winterNote: "妙立寺需事先預約，行程若要排入請先訂時段。",
         mapQuery: "妙立寺",
-      },
-      {
-        name: "石川縣立圖書館",
-        nameEn: "Ishikawa Prefectural Library",
-        photoSlug: "ishikawa-library",
-        theme: "family",
-        highlight:
-          "（備選）2022 年 7 月開館的現代圖書館，以巨大圓形書架為中心的開放式閱讀空間與環狀階梯是最大看點，不辦借閱證也能自由參觀，館內設有咖啡廳。",
-        transport: "金澤車站搭北鐵巴士到「石川県立図書館」或「崎浦、県立図書館口」站，車程約 20 分鐘。",
-        hours: "平日閱覽區 09:00～19:00、文化交流區 09:00～21:00；假日 09:00～18:00；每週一休館",
-        price: "免費",
-        winterNote: "2026/12/21～2027/1/25 為特別整理期間休館，1/26 起才可能開放，行前請再確認。",
-        mapQuery: "石川県立図書館",
-      },
-      {
-        name: "金澤海未來圖書館",
-        nameEn: "Kanazawa Umimirai Library",
-        photoSlug: "umi-mirai-library",
-        theme: "family",
-        highlight:
-          "（備選）外牆有約 6,000 個圓窗的白色方盒建築，曾入選「世界最美公共圖書館 25 選」，圓窗有 20、25、30 公分三種尺寸，陽光灑入室內形成獨特光影，適合喜歡攝影與建築的人。",
-        transport: "位置與開放時間請出發前查詢官方資訊。",
-        hours: null,
-        price: null,
-        winterNote: "交通方式與冬季開放狀況請於排入前先確認。",
-        mapQuery: "金沢海みらい図書館",
-      },
-      {
-        name: "卯辰山公園",
-        nameEn: "Utatsuyama Park",
-        photoSlug: "utatsuyama",
-        theme: "family",
-        highlight:
-          "（備選）位於金澤市區東側的山丘公園，登上展望區可俯瞰金澤市景，天氣晴朗時甚至能遠眺日本海方向。已走訪東茶屋街時可順道前往。",
-        transport: "金澤車站搭巴士約 25 分鐘到終點站「望湖台」，步行約 1 分鐘。",
-        hours: "24 小時開放",
-        price: null,
-        winterNote: "晚上沒有巴士，想看夜景需開車或搭計程車；冬季坡道積雪請留意安全。",
-        mapQuery: "卯辰山公園",
       },
       {
         name: "金澤百番街",
@@ -531,6 +486,7 @@ export const spots = [
   },
 ];
 
+// 景點卡片照片：有 photo 就直接用該路徑（可為 png 與中文檔名），沒有就退回 public/images/<photoSlug>.jpg。
 // 圖片區塊：對應 public/images/<slug>.jpg，可依需要持續擴充新的照片類別。
 export const gallery = [
   { slug: "hero-snow-scenery", caption: "北陸雪景" },

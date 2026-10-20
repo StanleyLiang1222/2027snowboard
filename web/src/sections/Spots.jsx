@@ -17,7 +17,7 @@ export function Spots() {
             <div className="grid gap-6 sm:grid-cols-2">
               {group.items.map((spot) => (
                 <Card key={spot.name} className="flex flex-col gap-4">
-                  <PhotoSlot slug={spot.photoSlug} alt={spot.name} />
+                  <PhotoSlot slug={spot.photoSlug} src={spot.photo} alt={spot.name} />
 
                   <div className="flex items-start justify-between gap-3">
                     <div>
