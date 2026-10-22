@@ -19,9 +19,26 @@ function sha256(value) {
   return createHash("sha256").update(String(value)).digest();
 }
 
+// 密碼比對前先正規化：去掉前後空白（Vercel 貼上值時常多帶空白或換行）、
+// 全形轉半形（NFKC），避免「看起來一樣卻比對失敗」。
+export function normalizePassword(value) {
+  return String(value ?? "").normalize("NFKC").trim();
+}
+
+// 前端會把密碼 encodeURIComponent 後放進 header（HTTP header 不能直接放中文等非 ASCII 字元）。
+export function decodePasswordHeader(value) {
+  if (value == null) return "";
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return String(value);
+  }
+}
+
 export function passwordMatches(provided, expected) {
-  if (!expected) return false;
-  return timingSafeEqual(sha256(provided ?? ""), sha256(expected));
+  const want = normalizePassword(expected);
+  if (!want) return false;
+  return timingSafeEqual(sha256(normalizePassword(provided)), sha256(want));
 }
 
 export function parseLocation(value) {
@@ -78,8 +95,8 @@ export function findPhoto(index, id) {
 // 純邏輯 handler：接收已經解析好的請求資訊，回傳 { status, body }，不依賴 Node req/res。
 export function createGalleryService({ store, password }) {
   function requireAuth(headers) {
-    if (!password) throw new HttpError(503, "相簿尚未設定管理密碼（ADMIN_PASSWORD）");
-    if (!passwordMatches(headers["x-admin-password"], password)) {
+    if (!normalizePassword(password)) throw new HttpError(503, "相簿尚未設定管理密碼（ADMIN_PASSWORD）");
+    if (!passwordMatches(decodePasswordHeader(headers["x-admin-password"]), password)) {
       throw new HttpError(401, "密碼錯誤");
     }
   }

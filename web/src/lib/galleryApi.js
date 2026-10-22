@@ -21,6 +21,11 @@ export function savePassword(password) {
   }
 }
 
+// 與後端同樣的正規化，再做 URL 編碼，讓中文或全形密碼也能放進 header。
+function authHeader(password) {
+  return encodeURIComponent(String(password ?? "").normalize("NFKC").trim());
+}
+
 async function request(url, options = {}) {
   let res;
   try {
@@ -45,14 +50,14 @@ async function request(url, options = {}) {
 export const fetchGallery = () => request(ENDPOINT, { cache: "no-store" });
 
 export const verifyPassword = (password) =>
-  request(`${ENDPOINT}?action=verify`, { method: "POST", headers: { "x-admin-password": password } });
+  request(`${ENDPOINT}?action=verify`, { method: "POST", headers: { "x-admin-password": authHeader(password) } });
 
 export async function uploadPhoto({ location, file, caption = "", password }) {
   const blob = await compressImage(file);
   const query = new URLSearchParams({ location, caption });
   return request(`${ENDPOINT}?${query}`, {
     method: "POST",
-    headers: { "x-admin-password": password, "content-type": blob.type },
+    headers: { "x-admin-password": authHeader(password), "content-type": blob.type },
     body: blob,
   });
 }
@@ -60,14 +65,14 @@ export async function uploadPhoto({ location, file, caption = "", password }) {
 export const updateCaption = ({ id, caption, password }) =>
   request(ENDPOINT, {
     method: "PATCH",
-    headers: { "x-admin-password": password, "content-type": "application/json" },
+    headers: { "x-admin-password": authHeader(password), "content-type": "application/json" },
     body: JSON.stringify({ id, caption }),
   });
 
 export const deletePhoto = ({ id, password }) =>
   request(`${ENDPOINT}?id=${encodeURIComponent(id)}`, {
     method: "DELETE",
-    headers: { "x-admin-password": password },
+    headers: { "x-admin-password": authHeader(password) },
   });
 
 function canvasToBlob(canvas, quality) {
