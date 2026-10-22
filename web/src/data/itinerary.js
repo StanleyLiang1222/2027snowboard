@@ -564,16 +564,6 @@ export const spots = [
 ];
 
 // 景點卡片照片：有 photo 就直接用該路徑（可為 png 與中文檔名），沒有就退回 public/images/<photoSlug>.jpg。
-// 圖片區塊：對應 public/images/<slug>.jpg，可依需要持續擴充新的照片類別。
-export const gallery = [
-  { slug: "hero-snow-scenery", caption: "北陸雪景" },
-  { slug: "family-snowboard", caption: "親子滑雪合照" },
-  { slug: "kanazawa-station", caption: "金澤車站・鼓門" },
-  { slug: "kenrokuen", caption: "兼六園雪吊" },
-  { slug: "shinkansen", caption: "北陸新幹線" },
-  { slug: "yuzawa-cable-car", caption: "越後中里雪場" },
-];
-
 export const routePins = [
   { order: 1, name: "神戶港 / 美利堅公園" },
   { order: 2, name: "JR 福井站恐龍廣場" },
