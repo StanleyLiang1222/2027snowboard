@@ -506,7 +506,7 @@ export const spots = [
         photoSlug: "kanazawa-station",
         theme: "family",
         highlight:
-          "位於金澤站內的購物商場，分為 Anto、Rinto、Anto 西三區，伴手禮、北陸名產、餐廳與超市集中，進出站動線方便，適合滑雪前補齊零食與小物；若主要目標是伴手禮，也可把車站周邊留到行程最後一次逛完。",
+          "位於金澤站內的購物商場，分為 Anto、Rinto、Anto 西三區，伴手禮、北陸名產、餐廳與超市集中，進出站動線方便，適合滑雪前補齊零食與小物；若主要目標是伴手禮，也可把車站周邊留到行程最後一次逛完。Rinto 區有「FREAK'S STORE 金沢百番街Rinto店」，可以找到 NANGA 的衣服（滑雪前想補防寒衣物可以順道逛）。",
         transport: "JR 金澤站直結，出站即達，不需另外搭車。",
         hours: "購物多為 08:30～20:00、餐飲約 11:00～22:00（各店不同，出發前確認）",
         price: null,
