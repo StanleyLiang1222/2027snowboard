@@ -5,6 +5,7 @@ const LINKS = [
   { href: "#itinerary", label: "逐日行程" },
   { href: "#spots", label: "精選景點" },
   { href: "#transit", label: "交通票券" },
+  { href: "#lodging", label: "住宿資訊" },
   { href: "#info", label: "實用資訊" },
 ];
 

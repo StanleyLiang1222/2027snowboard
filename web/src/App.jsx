@@ -7,6 +7,7 @@ import { Itinerary } from "./sections/Itinerary";
 import { Gallery } from "./sections/Gallery";
 import { Spots } from "./sections/Spots";
 import { Transit } from "./sections/Transit";
+import { Lodging } from "./sections/Lodging";
 import { PracticalInfo } from "./sections/PracticalInfo";
 import { Footer } from "./sections/Footer";
 
@@ -23,6 +24,7 @@ function App() {
       <Spots />
       <ToneTransition from="light" to="dark" />
       <Transit />
+      <Lodging />
       <PracticalInfo />
       <Footer />
     </div>
