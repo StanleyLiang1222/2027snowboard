@@ -1,4 +1,4 @@
-import { spots, fukuiFood } from "../data/itinerary";
+import { spots, fukuiFood, omichoFood } from "../data/itinerary";
 import { SectionContainer } from "../components/SectionContainer";
 import { Card } from "../components/Card";
 import { PhotoSlot } from "../components/PhotoSlot";
@@ -52,30 +52,6 @@ export function Spots() {
                     </div>
                   </div>
 
-                  {spot.foods && (
-                    <div className="border-t border-mist-border/15 pt-4">
-                      <p className="text-xs uppercase tracking-wide text-ash-text">必吃美食</p>
-                      <ul className="mt-3 flex flex-col gap-4">
-                        {spot.foods.map((food) => (
-                          <li key={food.name} className="text-sm">
-                            <div className="flex flex-wrap items-center gap-2">
-                              <span className="font-display font-medium text-ivory-text">{food.name}</span>
-                              <span className="rounded-tags border border-mist-border/30 px-2 py-0.5 text-xs text-ash-text">
-                                {food.category}
-                              </span>
-                            </div>
-                            <p className="mt-1 leading-relaxed text-ivory-text/90">{food.note}</p>
-                            {(food.price || food.hours) && (
-                              <p className="mt-1 text-xs text-ash-text">
-                                {[food.price, food.hours].filter(Boolean).join("　｜　")}
-                              </p>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
                   <GoogleMapsLink query={spot.mapQuery} />
                 </Card>
               ))}
@@ -98,6 +74,40 @@ export function Spots() {
                           <span className="text-xs uppercase tracking-wide text-ash-text">推薦店家　</span>
                           {food.recommend}
                         </p>
+                      )}
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {group.region === "金澤地區" && (
+              <div className="mt-10">
+                <h3 className="font-display mb-5 text-lg font-medium text-ivory-text">近江町市場美食</h3>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {omichoFood.map((food) => (
+                    <Card key={food.name} className="flex flex-col gap-3">
+                      <PhotoSlot slug="omicho-food" src={food.photo} alt={food.name} />
+                      <div className="flex items-start justify-between gap-3">
+                        <h4 className="font-display text-lg font-medium text-ivory-text">{food.name}</h4>
+                        <ThemeBadge theme="family">{food.category}</ThemeBadge>
+                      </div>
+                      <p className="text-sm leading-relaxed text-ivory-text/90">{food.note}</p>
+                      {(food.price || food.hours) && (
+                        <div className="grid gap-2 border-t border-mist-border/15 pt-3 text-sm text-ivory-text/90">
+                          {food.price && (
+                            <p>
+                              <span className="text-xs uppercase tracking-wide text-ash-text">價格　</span>
+                              {food.price}
+                            </p>
+                          )}
+                          {food.hours && (
+                            <p>
+                              <span className="text-xs uppercase tracking-wide text-ash-text">營業　</span>
+                              {food.hours}
+                            </p>
+                          )}
+                        </div>
                       )}
                     </Card>
                   ))}
