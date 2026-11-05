@@ -7,6 +7,45 @@ import { GoogleMapsLink } from "../components/GoogleMapsLink";
 
 const THEME_LABEL = { dino: "恐龍探索", gold: "金箔手作", family: "親子景點" };
 
+// 碗筷線條 icon，用來標示美食區塊。
+function FoodIcon({ className = "" }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M14 3 9.5 10" />
+      <path d="M19 3.5 12.5 10" />
+      <path d="M3 12h18a9 9 0 0 1-18 0Z" />
+      <path d="M9 21h6" />
+    </svg>
+  );
+}
+
+// 美食區塊：用淡底色面板包起來，與景點卡片區隔。
+function FoodPanel({ title, children }) {
+  return (
+    <div className="mt-10 rounded-cards bg-obsidian-button p-5 sm:p-8">
+      <div className="mb-5 flex items-center gap-3">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-graphite-card text-champagne-gold">
+          <FoodIcon className="h-5 w-5" />
+        </span>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-champagne-gold">Food</p>
+          <h3 className="font-display text-lg font-medium text-ivory-text">{title}</h3>
+        </div>
+      </div>
+      <div className="grid gap-6 sm:grid-cols-2">{children}</div>
+    </div>
+  );
+}
+
 export function Spots() {
   return (
     <SectionContainer id="spots" tone="light" eyebrow="Fukui & Kanazawa" title="精選景點詳細資訊">
@@ -58,9 +97,7 @@ export function Spots() {
             </div>
 
             {group.region === "福井地區" && (
-              <div className="mt-10">
-                <h3 className="font-display mb-5 text-lg font-medium text-ivory-text">福井美食</h3>
-                <div className="grid gap-6 sm:grid-cols-2">
+              <FoodPanel title="福井美食">
                   {fukuiFood.map((food) => (
                     <Card key={food.name} className="flex flex-col gap-3">
                       <PhotoSlot slug="fukui-food" src={food.photo} alt={food.name} />
@@ -77,14 +114,11 @@ export function Spots() {
                       )}
                     </Card>
                   ))}
-                </div>
-              </div>
+              </FoodPanel>
             )}
 
             {group.region === "金澤地區" && (
-              <div className="mt-10">
-                <h3 className="font-display mb-5 text-lg font-medium text-ivory-text">近江町市場美食</h3>
-                <div className="grid gap-6 sm:grid-cols-2">
+              <FoodPanel title="近江町市場美食">
                   {omichoFood.map((food) => (
                     <Card key={food.name} className="flex flex-col gap-3">
                       <PhotoSlot slug="omicho-food" src={food.photo} alt={food.name} />
@@ -111,8 +145,7 @@ export function Spots() {
                       )}
                     </Card>
                   ))}
-                </div>
-              </div>
+              </FoodPanel>
             )}
           </div>
         ))}
