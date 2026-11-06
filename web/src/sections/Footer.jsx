@@ -6,7 +6,11 @@ export function Footer() {
       <p className="text-xs text-ash-text">
         {overview.title}・{overview.dateRange}
       </p>
-      <p className="mt-1 text-xs text-ash-text/70">行程內容僅供家庭旅遊規劃參考，實際時間與費用請以現場公告為準。</p>
+      <p className="mt-1 text-xs text-ash-text/70">
+        © Mapterhorn | 雪道與纜車 © OpenStreetMap contributors（ODbL） | OpenFreeMap © OpenMapTiles Data from
+        OpenStreetMap
+      </p>
+      <p className="mt-1 text-xs text-ash-text/70">© Stanley</p>
     </footer>
   );
 }
