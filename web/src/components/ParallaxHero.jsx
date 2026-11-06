@@ -286,6 +286,10 @@ export function ParallaxHero() {
         <div className="layer" data-speed="0.46" style={{ left: "-510px", top: "1807px", width: "1457px", height: "3059px", zIndex: 15 }}>
           <img src="/images/tree2.png" alt="雪松" />
         </div>
+
+        {/* 畫布底部淡出：捲到後段時畫布（overflow:hidden）會從中間切掉鼓門與樹，
+            疊一條透明→頁面深色的漸層蓋住切口，接到下方「逐日行程」不留硬邊。 */}
+        <div className="canvas-bottom-fade" aria-hidden="true" />
       </div>
 
       {/* 手機版直式敘事 */}

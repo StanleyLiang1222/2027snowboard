@@ -46,33 +46,15 @@
   --color-slate-border: #b6b0a0;
 }
 
-/* 深淺分區交界的漸變過渡帶：背景本身是一張「深→淺」的線性漸層圖（同一瞬間畫面上
-   就有真正的空間漸變，不是整塊變色，所以不會出現實心色塊硬邊界）。
-   漸層帶的「浮現」動作用 Scroll-driven Animations 綁定捲動位置——用 clip-path 由上往下
-   撐開，捲多少、漸層帶現多少，不支援的瀏覽器（@supports 判斷）直接顯示完整漸層。 */
+/* 深淺分區交界的漸變過渡帶：背景是一張「深→淺」的緩動漸層（見 ToneTransition.jsx）。
+   原本用 clip-path 隨捲動由上往下撐開，但撐開途中下半段被裁掉、露出深色頁面底色，
+   在深→淺交界會出現一條黑帶接著淺色區塊的硬邊，所以改為靜態顯示完整漸層。 */
 .tone-transition-strip {
   height: 24rem;
 }
 @media (min-width: 640px) {
   .tone-transition-strip {
     height: 60vh;
-  }
-}
-@keyframes strip-reveal {
-  from {
-    clip-path: inset(0 0 100% 0);
-  }
-  to {
-    clip-path: inset(0 0 0% 0);
-  }
-}
-@supports (animation-timeline: view()) {
-  .tone-transition-strip {
-    animation: strip-reveal linear both;
-    animation-timeline: view();
-    /* cover（不是 entry）：範圍綁定「元素從第一個像素出現到最後一個像素消失」的
-       整段可視時間，不是只綁定它自己矮矮的高度，捲動距離拉長，效果才看得出來。 */
-    animation-range: cover 0% cover 55%;
   }
 }
 
@@ -163,6 +145,42 @@ h1, h2, h3, h4 {
 body.is-mobile #parallax-canvas { display: none; }
 body.is-mobile #parallax-mobile { display: block; }
 
+/* 鼓門圖片底部自帶的透明淡出太短，直接疊在深色頁面底色上會變成一條灰帶加硬邊。
+   在鼓門圖層底部疊一段「透明→頁面深色」的漸層，跟著鼓門一起視差移動，
+   讓雪地自然沉進下方的深色區塊；往下多延伸 4px 蓋掉圖片最後幾列半透明像素。 */
+/* 鼓門以下用實心深色蓋住：底層的雲（cloud.png）比鼓門還長，
+   鼓門淡出到深色後，下面若露出雲層就會多一條淺色帶。 */
+#gate-layer::before {
+  content: "";
+  position: absolute; left: 0; right: 0; top: 100%; height: 4000px;
+  pointer-events: none;
+  background: var(--color-onyx-canvas);
+}
+#gate-layer::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: -4px; height: 34%;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(23, 23, 33, 0) 0%,
+    rgba(23, 23, 33, 0.06) 18%,
+    rgba(23, 23, 33, 0.22) 38%,
+    rgba(23, 23, 33, 0.5) 58%,
+    rgba(23, 23, 33, 0.8) 78%,
+    var(--color-onyx-canvas) 94%
+  );
+}
+.canvas-bottom-fade {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 420px; z-index: 20;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(23, 23, 33, 0) 0%,
+    rgba(23, 23, 33, 0.25) 35%,
+    rgba(23, 23, 33, 0.7) 70%,
+    var(--color-onyx-canvas) 100%
+  );
+}
 #parallax-mobile { display: none; }
 .m-section {
   position: relative;
