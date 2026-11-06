@@ -235,7 +235,7 @@ export function ParallaxHero() {
 
       {/* 桌機版 2D 視差繪圖層 */}
       <div id="parallax-canvas">
-        <div className="layer" data-speed="0.08" style={{ left: "-22px", top: 0, width: "2910px", height: "1439px", zIndex: 1 }}>
+        <div className="layer" data-speed="0.08" style={{ left: "-22px", top: 0, width: "2932px", height: "1439px", zIndex: 1 }}>
           <img src="/images/cloud.png" alt="雲" />
         </div>
 
@@ -247,7 +247,7 @@ export function ParallaxHero() {
           <img src="/poc-parallax/snow-travel.svg" alt="SNOW TRAVEL" />
         </div>
 
-        <div className="layer" data-speed="0.15" style={{ left: "-22px", top: "285px", width: "2910px", height: "1439px", zIndex: 4 }}>
+        <div className="layer" data-speed="0.15" style={{ left: "-22px", top: "285px", width: "2932px", height: "1439px", zIndex: 4 }}>
           <img src="/images/mountain.png" alt="雪山" />
         </div>
 
@@ -259,7 +259,7 @@ export function ParallaxHero() {
           <img src="/images/Gemini_Generated_Image_l7ddnzl7ddnzl7dd.png" alt="雪山主視覺" />
         </div>
 
-        <div className="layer" id="gate-layer" data-speed="0.32" style={{ left: "-67px", top: "1266px", width: "2955px", height: "1968px", zIndex: 9 }}>
+        <div className="layer" id="gate-layer" data-speed="0.32" style={{ left: "-67px", top: "1266px", width: "2977px", height: "1968px", zIndex: 9 }}>
           <img src="/images/金澤鼓門_1.png" alt="金澤鼓門" />
         </div>
 
