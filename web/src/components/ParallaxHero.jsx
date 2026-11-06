@@ -255,7 +255,7 @@ export function ParallaxHero() {
           <img src="/poc-parallax/setsuraku.svg" alt="雪楽" />
         </div>
 
-        <div className="layer hero-visual" data-speed="0.22" data-burst="0.00022" style={{ left: "520px", top: "71px", width: "1444px", height: "2165px", zIndex: 8, transformOrigin: "50% 62%" }}>
+        <div className="layer hero-visual" data-speed="0.22" data-burst="0.00022" style={{ left: "664.5px", top: "339.5px", width: "1155.2px", height: "1732px", zIndex: 8, transformOrigin: "50% 62%" }}>
           <img src="/images/Gemini_Generated_Image_l7ddnzl7ddnzl7dd.png" alt="雪山主視覺" />
         </div>
 

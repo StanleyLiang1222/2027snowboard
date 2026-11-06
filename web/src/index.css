@@ -183,7 +183,7 @@ body.is-mobile #parallax-mobile { display: block; }
 .m-hero-title img { width: min(78vw, 420px); height: auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.35)); }
 .m-snowboarder {
   position: absolute; left: 50%; bottom: 2%; z-index: 2;
-  width: min(82vw, 460px); transform: translateX(-50%);
+  width: min(65.6vw, 368px); transform: translateX(-50%);
   pointer-events: none;
 }
 .m-snowboarder img { width: 100%; height: auto; display: block; }
