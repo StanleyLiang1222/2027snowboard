@@ -93,7 +93,7 @@ function SpotHeader({ spot }) {
         {spot.nameEn && <p className="text-xs text-ash-text">{spot.nameEn}</p>}
         {spot.base && <p className="mt-1 text-xs text-ash-text">{spot.base}</p>}
       </div>
-      <ThemeBadge theme={spot.theme}>{THEME_LABEL[spot.theme] ?? "景點"}</ThemeBadge>
+      <ThemeBadge theme={spot.theme}>{spot.badge ?? THEME_LABEL[spot.theme] ?? "景點"}</ThemeBadge>
     </div>
   );
 }
